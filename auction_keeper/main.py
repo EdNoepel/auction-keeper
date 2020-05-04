@@ -458,7 +458,7 @@ class AuctionKeeper:
                 joy = self.vat.dai(self.vow.address)
 
             woe = self.vow.woe()
-            if sump <= woe and joy == Rad(0):
+            if True:  #sump <= woe and joy == Rad(0):
                 self.vow.flop().transact(gas_price=self.gas_price)
 
     def check_all_auctions(self):

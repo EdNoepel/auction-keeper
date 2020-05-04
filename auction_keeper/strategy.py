@@ -95,13 +95,15 @@ class FlipperStrategy(Strategy):
                 return price, self.flipper.dent(id, our_lot, bid.bid), bid.bid
             else:
                 self.logger.debug(f"dent lot {our_lot} would not exceed the bid increment for auction {id}")
-                return None, None, None
+                # return None, None, None
+                return price, self.flipper.dent(id, our_lot, bid.bid), bid.bid
 
         # tend phase
         else:
             if bid.lot < self.min_lot:
                 self.logger.debug(f"tend lot {bid.lot} less than minimum {self.min_lot} for auction {id}")
-                return None, None, None
+                # return None, None, None
+                return price, self.flipper.tend(id, bid.lot, bid.tab), bid.tab
 
             our_bid = Rad.min(Rad(bid.lot) * price, bid.tab)
             our_price = price if our_bid < bid.tab else bid.bid / Rad(bid.lot)
@@ -110,7 +112,8 @@ class FlipperStrategy(Strategy):
                 return our_price, self.flipper.tend(id, bid.lot, our_bid), our_bid
             else:
                 self.logger.debug(f"tend bid {our_bid} would not exceed the bid increment for auction {id}")
-                return None, None, None
+                # return None, None, None
+                return our_price, self.flipper.tend(id, bid.lot, our_bid), our_bid
 
     def deal(self, id: int) -> Transact:
         return self.flipper.deal(id)
@@ -163,7 +166,8 @@ class FlapperStrategy(Strategy):
             return price, self.flapper.tend(id, bid.lot, Wad(our_bid)), Rad(our_bid)
         else:
             self.logger.debug(f"bid {our_bid} would not exceed the bid increment for auction {id}")
-            return None, None, None
+            # return None, None, None
+            return price, self.flapper.tend(id, bid.lot, Wad(our_bid)), Rad(our_bid)
 
     def deal(self, id: int) -> Transact:
         return self.flapper.deal(id)
@@ -214,7 +218,8 @@ class FlopperStrategy(Strategy):
             return price, self.flopper.dent(id, Wad(our_lot), bid.bid), bid.bid
         else:
             self.logger.debug(f"lot {our_lot} would not exceed the bid increment for auction {id}")
-            return None, None, None
+            # return None, None, None
+            return price, self.flopper.dent(id, Wad(our_lot), bid.bid), bid.bid
 
     def deal(self, id: int) -> Transact:
         return self.flopper.deal(id)
