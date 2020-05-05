@@ -27,7 +27,7 @@ from datetime import datetime
 from requests.exceptions import RequestException
 from web3 import Web3, HTTPProvider
 
-from pymaker import Address
+from pymaker import Address, Transact
 from pymaker.deployment import DssDeployment
 from pymaker.keys import register_keys
 from pymaker.lifecycle import Lifecycle
@@ -43,6 +43,7 @@ from auction_keeper.urn_history import UrnHistory
 
 class AuctionKeeper:
     logger = logging.getLogger()
+    Transact.gas_estimate_for_bad_txs = 200000
 
     def __init__(self, args: list, **kwargs):
         parser = argparse.ArgumentParser(prog='auction-keeper')
